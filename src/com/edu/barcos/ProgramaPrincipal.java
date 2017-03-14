@@ -115,7 +115,28 @@ public class ProgramaPrincipal {
 							break;
 							
 				case "7": 	System.out.println("Carreraaaaaaaaa");
+							//Barco participantes[] = new Barco[q.numBarcos()];
+							Barco participantes[] = q.getBarcos();
+							System.out.println("Los barcos participantes son:");
+							for (int i=0; i<participantes.length; i++) {
+								System.out.println(participantes[i].toString());
+							}
+							System.out.println("Introduce el ID del puerto de salida");
+							id_puerto_salida = Integer.parseInt(teclado.nextLine());
+							if (!q.existsPuerto(id_puerto_salida)) {
+								System.out.println("El puerto introducido no existe en el sistema");
+								break;
+							}
+							System.out.println("Introduce el ID del puerto de llegada");
+							id_puerto_llegada = Integer.parseInt(teclado.nextLine());
+							if (!q.existsPuerto(id_puerto_llegada)) {
+								System.out.println("El puerto introducido no existe en el sistema");
+								break;
+							}
+							ganador = q.carrera(id_puerto_salida, id_puerto_llegada, participantes);
 							
+							System.out.println("");
+							System.out.println("El ganador de la carrera es: " +ganador.toString());
 							break;
 							
 				case "9": 	System.out.println("Gracias por jugar con nosotros :)");

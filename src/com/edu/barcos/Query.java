@@ -198,6 +198,60 @@ public class Query {
 	
 	public Barco carrera (int id_puerto_salida, int id_puerto_llegada, Barco[] participantes) {
 		Barco ganador = new Barco();
+		int llegadas[] = new int[participantes.length];
+		int num_llegadas = 0;
+		int id_carrera = 5;
+		
+		//Para no pedirle al usuario vamos a ver cual es el número que le toca a la siguiente carrera
+		try {
+			String query = "select max(id_carrera) from entrada;";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.next()){
+				id_carrera = rs.getInt("max(id_carrera)") + 1 ;
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//Ponemos a los barcos en marcha con el comando start y se guarda su salida en la tabla salida
+		for (int i=0; i<participantes.length; i++) {
+			participantes[i].start();
+			this.salidaBarco(participantes[i].getId_barco(), id_puerto_salida);
+		}
+		
+		//Controlamos que los barcos/hilos vayan terminando, y cuando terminen se inserta su llegada en la tabla entrada
+		while (num_llegadas < participantes.length) {
+			for (int i=0; i<participantes.length; i++) {
+				if (!participantes[i].isAlive()) {
+					if (llegadas[i] != -1) {
+						this.entradaBarco(participantes[i].getId_barco(), id_puerto_llegada, 0, id_carrera);
+						llegadas[i] = -1;
+						num_llegadas++;
+					}
+					
+				}
+			}
+			
+		}
+		
+		//Buscamos quien es el ganador de la carrera que acabamos de realizar
+		try {
+			String query = "select barcos.* from entrada join barcos on entrada.id_barco=barcos.id where id_carrera="+id_carrera +"order by fecha_entrada limit 1;";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.next()){
+				if (rs.getString("modelo").equalsIgnoreCase("Velero")) {
+					ganador = new Velero(modelo.VELERO, rs.getString("descripcion"));
+				} else if (rs.getString("modelo").equalsIgnoreCase("Fragata")) {
+					ganador = new Fragata(modelo.FRAGATA, rs.getString("descripcion"));
+				} else if (rs.getString("modelo").equalsIgnoreCase("Portaaviones")) {
+					ganador = new Fragata(modelo.PORTAAVIONES, rs.getString("descripcion"));
+				}
+			}	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 		
 		return ganador;
 	}
