@@ -18,6 +18,10 @@ public class Barco extends Thread {
 		this.descripcion = descripcion;
 	}
 
+	public Barco() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public modelo getModelo() {
 		return modelo;
 	}

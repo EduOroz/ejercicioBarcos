@@ -44,7 +44,7 @@ public class Velero extends Barco implements INautica {
 	
 	@Override
 	public String toString(){
-		return "Velero { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion();
+		return "Velero { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion()+"}";
 				
 	}
 		

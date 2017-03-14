@@ -24,7 +24,7 @@ public class Fragata extends Barco implements INautica {
 	@Override
 	public void pararMotor() {
 		for (int i=0; i<5; i++) {
-			System.out.println("Fragata arrancando motor " +i);
+			System.out.println("Fragata parando motor " +i);
 		}
 
 	}
@@ -37,15 +37,16 @@ public class Fragata extends Barco implements INautica {
 
 	@Override
 	public void run(){
-		System.out.println("Fragata saliendo de puerto");
+		System.out.println("Fragata comienza la carrera");
 		this.arrancarMotor();
-		//this.pararMotor();
+		System.out.println("Fragata en camino");
+		this.pararMotor();
 				
 	}
 	
 	@Override
 	public String toString(){
-		return "Fragata { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion();
+		return "Fragata { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion() +"}";
 				
 	}
 }

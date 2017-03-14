@@ -23,8 +23,9 @@ public class ProgramaPrincipal {
 		Scanner teclado = new Scanner(System.in);
 		Query q = new Query(new Conexion());
 		String opcion = "", descripcion, modelo_str, nombre, localizacion;
-		int id_barco, id_puerto;
+		int id_barco, id_puerto, peaje, id_puerto_salida, id_puerto_llegada;
 		modelo mod = null;
+		Barco ganador = new Barco();
 		
 		while (!opcion.equals("9")){
 			System.out.println("");
@@ -81,22 +82,41 @@ public class ProgramaPrincipal {
 				
 				case "5":	System.out.println("Introduce el ID del barco que está llegando a puerto");
 							id_barco = Integer.parseInt(teclado.nextLine());
+							if (!q.existsBarco(id_barco)) {
+								System.out.println("El barco introducido no existe en el sistema");
+								break;
+							}
 							System.out.println("Introduce el ID del puerto en el que está efectuando la entrada");
 							id_puerto = Integer.parseInt(teclado.nextLine());
-							q.entradaBarco(id_barco, id_puerto);							
+							if (!q.existsPuerto(id_puerto)) {
+								System.out.println("El puerto introducido no existe en el sistema");
+								break;
+							}
+							System.out.println("Indica el peaje a pagar por la entrada al puerto");
+							peaje = Integer.parseInt(teclado.nextLine());
+							q.entradaBarco(id_barco, id_puerto, peaje, -1);							
 									
 							break;
 				
 				case "6": 	System.out.println("Introduce el ID del barco que está saliendo del puerto");
 							id_barco = Integer.parseInt(teclado.nextLine());
+							if (!q.existsBarco(id_barco)) {
+								System.out.println("El barco introducido no existe en el sistema");
+								break;
+							}
 							System.out.println("Introduce el ID del puerto en el que está efectuando la salida");
 							id_puerto = Integer.parseInt(teclado.nextLine());
-							q.salidaBarco(id_barco, id_puerto);	
+							if (!q.existsPuerto(id_puerto)) {
+								System.out.println("El puerto introducido no existe en el sistema");
+								break;
+							}
+							q.salidaBarco(id_barco, id_puerto);
+							
+							break;
 							
 				case "7": 	System.out.println("Carreraaaaaaaaa");
-							//q.showPrestamos();
-	
-				break;
+							
+							break;
 							
 				case "9": 	System.out.println("Gracias por jugar con nosotros :)");
 							break;

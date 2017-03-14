@@ -45,7 +45,7 @@ public class Portaaviones extends Barco implements INautica {
 
 	@Override
 	public String toString(){
-		return "Portaaviones { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion();
+		return "Portaaviones { id_barco: " +this.getId_barco() +", modelo:" +this.getModelo() +", descripcion: " +this.getDescripcion()+"}";
 				
 	}
 }
