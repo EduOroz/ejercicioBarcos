@@ -238,7 +238,7 @@ public class Query {
 		
 		//Buscamos quien es el ganador de la carrera que acabamos de realizar
 		try {
-			String query = "select barcos.* from entrada join barcos on entrada.id_barco=barcos.id where id_carrera="+id_carrera +" order by fecha_entrada desc limit 1;";
+			String query = "select barcos.* from entrada join barcos on entrada.id_barco=barcos.id where id_carrera="+id_carrera +" order by fecha_entrada asc limit 1;";
 			//System.out.println(query);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
