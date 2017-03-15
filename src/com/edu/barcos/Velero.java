@@ -2,8 +2,8 @@ package com.edu.barcos;
 
 public class Velero extends Barco implements INautica {
 
-	public Velero(modelo modelo, String descripcion) {
-		super (modelo, descripcion);
+	public Velero(int id_barco, modelo modelo, String descripcion) {
+		super (id_barco, modelo, descripcion);
 	}
 
 	@Override

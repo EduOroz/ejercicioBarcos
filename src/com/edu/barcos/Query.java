@@ -93,11 +93,11 @@ public class Query {
 			int i=0;
 			while (rs.next()){
 				if (rs.getString("modelo").equalsIgnoreCase("Velero")) {
-					participantes[i] = new Velero(modelo.VELERO, rs.getString("descripcion"));
+					participantes[i] = new Velero(rs.getInt("id"), modelo.VELERO, rs.getString("descripcion"));
 				} else if (rs.getString("modelo").equalsIgnoreCase("Fragata")) {
-					participantes[i] = new Fragata(modelo.FRAGATA, rs.getString("descripcion"));
+					participantes[i] = new Fragata(rs.getInt("id"),modelo.FRAGATA, rs.getString("descripcion"));
 				} else if (rs.getString("modelo").equalsIgnoreCase("Portaaviones")) {
-					participantes[i] = new Fragata(modelo.PORTAAVIONES, rs.getString("descripcion"));
+					participantes[i] = new Portaaviones(rs.getInt("id"),modelo.PORTAAVIONES, rs.getString("descripcion"));
 				}
 				//System.out.println(i +": " +biblioteca[i].toString());
 				i++;
@@ -162,7 +162,7 @@ public class Query {
 		Date date = new Date();
 		
 		try {
-			String query = "insert into entrada (id_puerto, id_barco, fecha_entrada, peaje) values (?,?,?,?,?);";
+			String query = "insert into entrada (id_puerto, id_barco, fecha_entrada, peaje, id_carrera) values (?,?,?,?,?);";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			preparedStmt.setInt(1, id_puerto);
 			preparedStmt.setInt(2, id_barco);
@@ -209,6 +209,7 @@ public class Query {
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()){
 				id_carrera = rs.getInt("max(id_carrera)") + 1 ;
+				System.out.println("La carrera es la número "+id_carrera);
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -237,16 +238,17 @@ public class Query {
 		
 		//Buscamos quien es el ganador de la carrera que acabamos de realizar
 		try {
-			String query = "select barcos.* from entrada join barcos on entrada.id_barco=barcos.id where id_carrera="+id_carrera +"order by fecha_entrada limit 1;";
+			String query = "select barcos.* from entrada join barcos on entrada.id_barco=barcos.id where id_carrera="+id_carrera +" order by fecha_entrada desc limit 1;";
+			//System.out.println(query);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()){
 				if (rs.getString("modelo").equalsIgnoreCase("Velero")) {
-					ganador = new Velero(modelo.VELERO, rs.getString("descripcion"));
+					ganador = new Velero(rs.getInt("id"), modelo.VELERO, rs.getString("descripcion"));
 				} else if (rs.getString("modelo").equalsIgnoreCase("Fragata")) {
-					ganador = new Fragata(modelo.FRAGATA, rs.getString("descripcion"));
+					ganador = new Fragata(rs.getInt("id"), modelo.FRAGATA, rs.getString("descripcion"));
 				} else if (rs.getString("modelo").equalsIgnoreCase("Portaaviones")) {
-					ganador = new Fragata(modelo.PORTAAVIONES, rs.getString("descripcion"));
+					ganador = new Portaaviones(rs.getInt("id"), modelo.PORTAAVIONES, rs.getString("descripcion"));
 				}
 			}	
 		} catch (SQLException e) {

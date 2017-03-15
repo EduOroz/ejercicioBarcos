@@ -2,8 +2,8 @@ package com.edu.barcos;
 
 public class Fragata extends Barco implements INautica {
 
-	public Fragata(modelo modelo, String descripcion) {
-		super (modelo, descripcion);
+	public Fragata(int id_barco, modelo modelo, String descripcion) {
+		super (id_barco, modelo, descripcion);
 	}
 
 	@Override

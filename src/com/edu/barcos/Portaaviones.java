@@ -2,8 +2,8 @@ package com.edu.barcos;
 
 public class Portaaviones extends Barco implements INautica {
 
-	public Portaaviones(modelo modelo, String descripcion) {
-		super (modelo, descripcion);
+	public Portaaviones(int id_barco, modelo modelo, String descripcion) {
+		super (id_barco, modelo, descripcion);
 	}
 
 	@Override
